@@ -1,6 +1,7 @@
 package at.sryntax.ads.spigot;
 
 import at.srsyntax.ads.api.API;
+import at.sryntax.ads.spigot.config.PluginConfig;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -35,12 +36,14 @@ public class AdsPlugin extends JavaPlugin {
     private static API api;
 
     private Economy economy;
+    private PluginConfig pluginConfig;
 
     @Override
     public void onEnable() {
         try {
             new Metrics(this, BSTATS_ID);
             this.economy = setupEconomy();
+            this.pluginConfig = PluginConfig.load(this);
         } catch (Exception exception) {
             getLogger().severe("Plugin could not be loaded successfully!");
             exception.printStackTrace();
