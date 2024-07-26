@@ -28,10 +28,13 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class AdsPlugin extends JavaPlugin {
 
+    private static final int BSTATS_ID = 20817;
+
     private static API api;
 
     @Override
     public void onEnable() {
+        new Metrics(this, BSTATS_ID);
 
     }
 
