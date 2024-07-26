@@ -1,0 +1,6 @@
+main: at.sryntax.ads.spigot.AdsPlugin
+name: Ads
+version: 1.0
+api-version: 1.21
+
+author: SrSyntaxAT
