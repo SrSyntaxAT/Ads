@@ -1,6 +1,8 @@
 package at.sryntax.ads.spigot;
 
 import at.srsyntax.ads.api.API;
+import net.milkbowl.vault.economy.Economy;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /*
@@ -32,15 +34,37 @@ public class AdsPlugin extends JavaPlugin {
 
     private static API api;
 
+    private Economy economy;
+
     @Override
     public void onEnable() {
-        new Metrics(this, BSTATS_ID);
-
+        try {
+            new Metrics(this, BSTATS_ID);
+            this.economy = setupEconomy();
+        } catch (Exception exception) {
+            getLogger().severe("Plugin could not be loaded successfully!");
+            exception.printStackTrace();
+        }
     }
 
     @Override
     public void onDisable() {
 
+    }
+
+    private Economy setupEconomy() {
+       final var provider = getEconomyProvider();
+       if (provider == null) {
+           throw new NullPointerException("Vault not found. Install the Vault to be able to use this plugin.");
+       }
+       return provider;
+    }
+
+    private Economy getEconomyProvider() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) return null;
+        final RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) return null;
+        return rsp.getProvider();
     }
 
     public static API getApi() {
